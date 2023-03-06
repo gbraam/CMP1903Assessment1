@@ -11,9 +11,7 @@ namespace CMP1903M_A01_2223
         static void Main(string[] args)
         {
             Pack pack = Pack.Instance;
-            Pack.dealCard(51);
             Console.WriteLine(Pack.shuffleCardPack(1));
-            Pack.PrintPack();
             Console.ReadLine();
         }
     }

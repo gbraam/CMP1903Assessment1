@@ -7,6 +7,13 @@ using System.Threading.Tasks;
 
 namespace CMP1903M_A01_2223
 {
+
+    public enum ShuffleType
+    {
+        FisherYates = 1,
+        Riffle = 2,
+        NoShuffle = 3
+    }
     class Pack
     {
         private static Pack _instance = null;
@@ -31,23 +38,23 @@ namespace CMP1903M_A01_2223
             Console.WriteLine(_pack.Count);
         }
 
-        // Could use an enum to represent type of shuffle
-        // Add min number of cards check before shuffling
-        // Shuffles should return bool
         public static bool shuffleCardPack(int typeOfShuffle)
         {
             if (_pack.Count <= 1) return false;
-            if (typeOfShuffle == 1)
+
+            ShuffleType shuffleType = (ShuffleType)typeOfShuffle;
+            Console.WriteLine(shuffleType);
+            switch (shuffleType)
             {
-                FisherYatesShuffle();
-                return true;
+                case ShuffleType.FisherYates:
+                    return FisherYatesShuffle();
+                case ShuffleType.Riffle:
+                    return RiffleShuffle();
+                case ShuffleType.NoShuffle:
+                    return true;
+                default:
+                    return false;
             }
-            else if (typeOfShuffle == 2)
-            {
-                RiffleShuffle();
-                return true;
-            }
-            return false;
         }
         public static Card deal()
         {
@@ -85,7 +92,7 @@ namespace CMP1903M_A01_2223
             }
         }
 
-        private static void FisherYatesShuffle()
+        private static bool FisherYatesShuffle()
         {
             Random random = new Random();
             for (int i = _pack.Count; i > 1; i--)
@@ -96,9 +103,10 @@ namespace CMP1903M_A01_2223
                 _pack[j] = card2;
                 _pack[i-1] = card1;
             }
+            return true;
         }
 
-        private static void RiffleShuffle()
+        private static bool RiffleShuffle()
         {
             Random random = new Random();
             List<Card> shuffledPack = new List<Card>();
@@ -140,7 +148,7 @@ namespace CMP1903M_A01_2223
                 shuffledPack.AddRange(pack2);
             }
             _pack = shuffledPack;
-
+            return true;
         }
 
         public static void PrintPack()
