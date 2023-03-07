@@ -10,8 +10,8 @@ namespace CMP1903M_A01_2223
     {
         static void Main(string[] args)
         {
-            Pack pack = Pack.Instance;
-            Console.WriteLine(Pack.shuffleCardPack(1));
+            Testing test = new Testing();
+
             Console.ReadLine();
         }
     }

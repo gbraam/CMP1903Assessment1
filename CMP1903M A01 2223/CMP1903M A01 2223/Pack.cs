@@ -19,6 +19,8 @@ namespace CMP1903M_A01_2223
         private static Pack _instance = null;
         private static List<Card> _pack = new List<Card>();
 
+        private static List<Card> testPack = new List<Card> { new Card(1, 1) };
+
         public static Pack Instance
         {
             get
@@ -43,7 +45,6 @@ namespace CMP1903M_A01_2223
             if (_pack.Count <= 1) return false;
 
             ShuffleType shuffleType = (ShuffleType)typeOfShuffle;
-            Console.WriteLine(shuffleType);
             switch (shuffleType)
             {
                 case ShuffleType.FisherYates:
@@ -58,26 +59,24 @@ namespace CMP1903M_A01_2223
         }
         public static Card deal()
         {
-            if (_pack.Count >= 1)
-            {
-                Card firstCard = _pack.First();
-                _pack.Remove(firstCard);
-                return firstCard;
-            }
-            // Pack has no cards remaining, what to do?
-            // Create new instance and return cards?
-            throw new NotImplementedException();
+            if (_pack.Count <= 0) return null;
+
+            Card firstCard = _pack.First();
+            _pack.Remove(firstCard);
+            return firstCard;
         }
         public static List<Card> dealCard(int amount)
         {
+            List<Card> cards;
             if (_pack.Count >= amount)
             {
-                List<Card> cards = _pack.Take(amount).ToList();
+                cards = _pack.Take(amount).ToList();
                 _pack = _pack.Except(cards).ToList();
                 return cards;
             }
-            // Pack does not have enough cards
-            throw new NotImplementedException();
+            cards = new List<Card>(_pack);
+            _pack.Clear();
+            return cards;
         }
 
         private void InitialisePack()
@@ -138,15 +137,9 @@ namespace CMP1903M_A01_2223
                 }
             }
 
-            // Add remaining cards to shuffleld pack if there are any
-            if (pack1.Count >= 1)
-            {
-                shuffledPack.AddRange(pack1);
-            }
-            if (pack2.Count >= 1)
-            {
-                shuffledPack.AddRange(pack2);
-            }
+            // Add remaining cards to shuffleld pack
+            shuffledPack.AddRange(pack1);
+            shuffledPack.AddRange(pack2);
             _pack = shuffledPack;
             return true;
         }
@@ -158,5 +151,6 @@ namespace CMP1903M_A01_2223
                 Console.WriteLine(item);
             }
         }
+
     }
 }
