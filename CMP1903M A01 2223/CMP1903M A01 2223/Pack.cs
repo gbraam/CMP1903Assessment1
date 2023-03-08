@@ -19,8 +19,6 @@ namespace CMP1903M_A01_2223
         private static Pack _instance = null;
         private static List<Card> _pack = new List<Card>();
 
-        private static List<Card> testPack = new List<Card> { new Card(1, 1) };
-
         public static Pack Instance
         {
             get
@@ -59,6 +57,7 @@ namespace CMP1903M_A01_2223
         }
         public static Card deal()
         {
+            // Error handling if the pack is empty
             if (_pack.Count <= 0) return null;
 
             Card firstCard = _pack.First();
@@ -68,12 +67,14 @@ namespace CMP1903M_A01_2223
         public static List<Card> dealCard(int amount)
         {
             List<Card> cards;
+            // If there are more than enough cards to deal, proceed
             if (_pack.Count >= amount)
             {
                 cards = _pack.Take(amount).ToList();
                 _pack = _pack.Except(cards).ToList();
                 return cards;
             }
+            // Otherwise there are not "amount" cards
             cards = new List<Card>(_pack);
             _pack.Clear();
             return cards;
@@ -96,6 +97,7 @@ namespace CMP1903M_A01_2223
             Random random = new Random();
             for (int i = _pack.Count; i > 1; i--)
             {
+                // Swap the ith card with the randomly generated jth card
                 int j = random.Next(0,i);
                 Card card1 = _pack[j];
                 Card card2 = _pack[i-1];
@@ -115,10 +117,6 @@ namespace CMP1903M_A01_2223
             // Split the pack into 2
             pack1 = _pack.GetRange(0, _pack.Count / 2);
             pack2 = _pack.Except(pack1).ToList();
-
-            // DEAD CODE
-            //pack1 = _pack.Take(_pack.Count / 2).ToList();
-            //pack2 = _pack.Skip(_pack.Count / 2).Take((_pack.Count / 2)+1).ToList();
 
             // Add a card from either pack chosen at random to the shuffled pack
             while (pack1.Count >= 1 && pack2.Count >= 1)

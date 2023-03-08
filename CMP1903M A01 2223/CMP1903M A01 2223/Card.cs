@@ -28,11 +28,13 @@ namespace CMP1903M_A01_2223
             Suit = suit;
         }
 
+        // Makes debugging and outputting cards easier
         public override string ToString()
         {
             return $"Value: {Value}, Suit: {Suit}";
         }
 
+        // To validate the suit/value of cards
         private int ClampValue(int min, int max, int value)
         {
             if (value > max)
